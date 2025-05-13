@@ -3,16 +3,17 @@ import pygame
 import sys
 import random
 
-
 EMPTY = 0
 FIRE = 1
 EXT = 2
 PLYR = 3
 WALL = 5
 
+
 class class_FIRE:
-    def __init__(self, grid) -> None:(
-        self.grid) = grid
+    def __init__(self, grid) -> None:
+        (
+            self.grid) = grid
 
     def Spread(self, grid) -> None:
         New_Fire = []
@@ -27,10 +28,11 @@ class class_FIRE:
             grid[y, x] = FIRE
         return grid
 
+
 routes = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-def grph(grid, strt):
 
+def grph(grid, strt):
     lines, clm = grid.shape
     last = set()
     queue = [strt]
@@ -50,14 +52,14 @@ def grph(grid, strt):
         for dx, dy in routes:
             nx, ny = x + dx, y + dy
             if (0 <= nx < clm and 0 <= ny < lines and grid[ny, nx] != WALL and grid[ny, nx] != FIRE and (
-            nx, ny) not in last):
+                    nx, ny) not in last):
                 last.add((nx, ny))
                 queue.append((nx, ny))
                 par[(nx, ny)] = (x, y)
     return []
 
-def GenLab(lines, clm):
 
+def GenLab(lines, clm):
     labirint = np.full((lines * 2 + 1, clm * 2 + 1), WALL)
 
     def Ri(x, y):
@@ -74,13 +76,13 @@ def GenLab(lines, clm):
 
     labirint[lines * 2 - 1][clm * 2 - 1] = EXT
 
-
     for _ in range(lines):
         x, y = random.randint(1, clm * 2 - 1), random.randint(1, lines * 2 - 1)
         if labirint[y, x] == EMPTY:
             labirint[y, x] = FIRE
 
     return labirint
+
 
 # def Spread_FIRE(grid):
 #     New_Fire = []
@@ -95,9 +97,7 @@ def GenLab(lines, clm):
 #         grid[y, x] = FIRE
 
 
-
 def Viz_Get_Out(grid):
-
     Plan_route = []
     Prog_Alive = True
     Plyr_grid = False
@@ -122,7 +122,6 @@ def Viz_Get_Out(grid):
     img_ext = pygame.transform.scale(img_ext, (Table_size, Table_size))
     img_fire = pygame.transform.scale(img_fire, (Table_size, Table_size))
 
-
     colours_pg = {
         EMPTY: (255, 255, 255),
         WALL: (128, 128, 128)
@@ -133,30 +132,29 @@ def Viz_Get_Out(grid):
     Plyr_grid = False
     Route_length = 0
     Wait_step = 5
+    no_exit_message = False
+    message_timer = 0
 
     while Prog_Alive:
         for ivent_pg in pygame.event.get():
             if ivent_pg.type == pygame.QUIT:
                 Prog_Alive = False
 
-
             elif ivent_pg.type == pygame.MOUSEBUTTONDOWN and not Plyr_grid:
-
                 mysh_x, mysh_y = pygame.mouse.get_pos()
-
                 grid_x, grid_y = mysh_x // Table_size, mysh_y // Table_size
 
                 if grid[grid_y][grid_x] == EMPTY:
                     grid[grid_y][grid_x] = PLYR
-
                     start_xy = (grid_x, grid_y)
-
                     Plan_route = grph(grid, start_xy)
 
-                    Points = len(Plan_route)
-
-                    Plyr_grid = True
-
+                    if not Plan_route:
+                        no_exit_message = True
+                        message_timer = 60  # Показывать сообщение 60 кадров
+                    else:
+                        Points = len(Plan_route)
+                        Plyr_grid = True
 
             elif ivent_pg.type == pygame.KEYDOWN and ivent_pg.key == pygame.K_SPACE and Plyr_grid:
                 Plan_route = grph(grid, start_xy)
@@ -201,6 +199,17 @@ def Viz_Get_Out(grid):
         if Plyr_grid:
             Fiire = class_FIRE(grid)
             Fiire.Spread(grid)
+
+        # Отображение сообщения об отсутствии выхода
+        if no_exit_message and message_timer > 0:
+            message = shrift.render("Выхода нет! Попробуйте другое место", True, (255, 0, 0))
+            message_rect = message.get_rect(center=(screen_pg.get_width() // 2, 30))
+            screen_pg.blit(message, message_rect)
+            message_timer -= 1
+            if message_timer <= 0:
+                no_exit_message = False
+                grid[grid_y][grid_x] = EMPTY  # Убираем персонажа, если выхода нет
+
         tekst = shrift.render(f'Очки: {Points}', True, (255, 255, 255))
         screen_pg.blit(tekst, (2, 2))
 
@@ -254,6 +263,7 @@ def start_sc_pg():
         pygame.display.flip()
         clock_pg.tick(60)
 
+
 def end_pg(Points):
     pygame.init()
     screen_pg = pygame.display.set_mode((400, 300))
@@ -273,11 +283,9 @@ def end_pg(Points):
         screen_pg.blit(tekst1, (200 - tekst1.get_width() // 2, 60))
         screen_pg.blit(tekst2, (200 - tekst2.get_width() // 2, 120))
 
-
         pygame.draw.rect(screen_pg, (143, 201, 103), button_again)
         button_text_snova = small_font.render("Сыграть снова", True, (255, 255, 255))
         screen_pg.blit(button_text_snova, (button_again.x + 5, button_again.y + 15))
-
 
         pygame.draw.rect(screen_pg, (143, 201, 103), button_ext)
         button_text_ext = small_font.render("Выйти", True, (255, 255, 255))
@@ -302,6 +310,7 @@ def end_pg(Points):
 
         pygame.display.flip()
         clock_pg.tick(30)
+
 
 start_sc_pg()
 lines, clm = 10, 10
