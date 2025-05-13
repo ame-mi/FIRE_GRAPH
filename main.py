@@ -10,6 +10,23 @@ EXT = 2
 PLYR = 3
 WALL = 5
 
+class class_FIRE:
+    def __init__(self, grid) -> None:(
+        self.grid) = grid
+
+    def Spread(self, grid) -> None:
+        New_Fire = []
+        for y in range(1, grid.shape[0] - 1):
+            for x in range(1, grid.shape[1] - 1):
+                if grid[y, x] == FIRE:
+                    for dx, dy in routes:
+                        nx, ny = x + dx, y + dy
+                        if grid[ny, nx] == EMPTY and random.random() < 0.06:
+                            New_Fire.append((nx, ny))
+        for x, y in New_Fire:
+            grid[y, x] = FIRE
+        return grid
+
 routes = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
 def grph(grid, strt):
@@ -65,17 +82,19 @@ def GenLab(lines, clm):
 
     return labirint
 
-def Spread_FIRE(grid):
-    New_Fire = []
-    for y in range(1, grid.shape[0] - 1):
-        for x in range(1, grid.shape[1] - 1):
-            if grid[y, x] == FIRE:
-                for dx, dy in routes:
-                    nx, ny = x + dx, y + dy
-                    if grid[ny, nx] == EMPTY and random.random() < 0.06:
-                        New_Fire.append((nx, ny))
-    for x, y in New_Fire:
-        grid[y, x] = FIRE
+# def Spread_FIRE(grid):
+#     New_Fire = []
+#     for y in range(1, grid.shape[0] - 1):
+#         for x in range(1, grid.shape[1] - 1):
+#             if grid[y, x] == FIRE:
+#                 for dx, dy in routes:
+#                     nx, ny = x + dx, y + dy
+#                     if grid[ny, nx] == EMPTY and random.random() < 0.06:
+#                         New_Fire.append((nx, ny))
+#     for x, y in New_Fire:
+#         grid[y, x] = FIRE
+
+
 
 def Viz_Get_Out(grid):
 
@@ -180,7 +199,8 @@ def Viz_Get_Out(grid):
                     screen_pg.blit(img_fire, (c * Table_size, r * Table_size))
 
         if Plyr_grid:
-            Spread_FIRE(grid)
+            Fiire = class_FIRE(grid)
+            Fiire.Spread(grid)
         tekst = shrift.render(f'Очки: {Points}', True, (255, 255, 255))
         screen_pg.blit(tekst, (2, 2))
 
