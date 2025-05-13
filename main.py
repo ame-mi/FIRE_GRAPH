@@ -151,7 +151,8 @@ def Viz_Get_Out(grid):
 
                     if not Plan_route:
                         no_exit_message = True
-                        message_timer = 60  # Показывать сообщение 60 кадров
+                        message_timer = 30  # Показывать сообщение 3 секунды (30 кадров при 10 FPS)
+                        grid[grid_y][grid_x] = EMPTY  # Сразу убираем персонажа, если выхода нет
                     else:
                         Points = len(Plan_route)
                         Plyr_grid = True
@@ -202,9 +203,26 @@ def Viz_Get_Out(grid):
 
         # Отображение сообщения об отсутствии выхода
         if no_exit_message and message_timer > 0:
+            # Создаем подложку для текста
             message = shrift.render("Выхода нет! Попробуйте другое место", True, (255, 0, 0))
             message_rect = message.get_rect(center=(screen_pg.get_width() // 2, 30))
+
+            # Создаем подложку (немного больше текста)
+            padding = 10
+            background_rect = pygame.Rect(
+                message_rect.left - padding,
+                message_rect.top - padding,
+                message_rect.width + padding * 2,
+                message_rect.height + padding * 2
+            )
+
+            # Рисуем подложку
+            pygame.draw.rect(screen_pg, (0, 0, 0), background_rect)
+            pygame.draw.rect(screen_pg, (255, 255, 255), background_rect, 2)  # Белая рамка
+
+            # Рисуем текст поверх подложки
             screen_pg.blit(message, message_rect)
+
             message_timer -= 1
             if message_timer <= 0:
                 no_exit_message = False
