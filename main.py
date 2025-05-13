@@ -292,6 +292,8 @@ def end_pg(Points):
 
                     lines, clm = 10, 10
                     Grid_GRPH = GenLab(lines, clm)
+                    pygame.mixer.music.load("music.mp3")
+                    pygame.mixer.music.play(-1)
                     Viz_Get_Out(Grid_GRPH)
                     return
                 elif button_ext.collidepoint(pygame.mouse.get_pos()):
