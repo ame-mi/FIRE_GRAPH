@@ -262,8 +262,8 @@ def end_pg(Points):
     small_font = pygame.font.SysFont('Pixeloid Sans', 24)
     clock_pg = pygame.time.Clock()
 
-    knopka_snova = pygame.Rect(60, 200, 130, 50)
-    knopka_vyhod = pygame.Rect(210, 200, 130, 50)
+    button_again = pygame.Rect(60, 200, 130, 50)
+    button_ext = pygame.Rect(210, 200, 130, 50)
 
     while True:
         screen_pg.fill((91, 64, 42))
@@ -274,9 +274,9 @@ def end_pg(Points):
         screen_pg.blit(tekst2, (200 - tekst2.get_width() // 2, 120))
 
 
-        pygame.draw.rect(screen_pg, (143, 201, 103), knopka_snova)
+        pygame.draw.rect(screen_pg, (143, 201, 103), button_again)
         button_text_snova = small_font.render("Сыграть снова", True, (255, 255, 255))
-        screen_pg.blit(button_text_snova, (knopka_snova.x + 5, knopka_snova.y + 15))
+        screen_pg.blit(button_text_snova, (button_again.x + 5, button_again.y + 15))
 
 
         pygame.draw.rect(screen_pg, (143, 201, 103), button_ext)
@@ -288,13 +288,13 @@ def end_pg(Points):
                 pygame.quit()
                 sys.exit()
             elif ivent_pg.type == pygame.MOUSEBUTTONDOWN:
-                if knopka_snova.collidepoint(pygame.mouse.get_pos()):
+                if button_again.collidepoint(pygame.mouse.get_pos()):
 
                     lines, clm = 10, 10
                     Grid_GRPH = GenLab(lines, clm)
                     Viz_Get_Out(Grid_GRPH)
                     return
-                elif button_extbutton_ext.collidepoint(pygame.mouse.get_pos()):
+                elif button_ext.collidepoint(pygame.mouse.get_pos()):
                     pygame.quit()
                     sys.exit()
 
