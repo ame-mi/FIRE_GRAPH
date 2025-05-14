@@ -113,10 +113,10 @@ def Viz_Get_Out(grid):
     clock_pg = pygame.time.Clock()
 
     # Загрузка изобр
-    img_plyr = pygame.image.load('photo1.png')
-    img_ext = pygame.image.load('photo2.png')
-    img_fire = pygame.image.load('photo3.png')
-    img_tree = pygame.image.load('photo4.png')
+    img_plyr = pygame.image.load('photos_music/photo1.png')
+    img_ext = pygame.image.load('photos_music/photo2.png')
+    img_fire = pygame.image.load('photos_music/photo3.png')
+    img_tree = pygame.image.load('photos_music/photo4.png')
     img_tree = pygame.transform.scale(img_tree, (Table_size, Table_size))
     img_plyr = pygame.transform.scale(img_plyr, (Table_size, Table_size))
     img_ext = pygame.transform.scale(img_ext, (Table_size, Table_size))
@@ -318,7 +318,7 @@ def end_pg(Points):
 
                     lines, clm = 10, 10
                     Grid_GRPH = GenLab(lines, clm)
-                    pygame.mixer.music.load("music.mp3")
+                    pygame.mixer.music.load("photos_music/music.mp3")
                     pygame.mixer.music.play(-1)
                     Viz_Get_Out(Grid_GRPH)
                     return
@@ -332,7 +332,7 @@ def end_pg(Points):
 
 start_sc_pg()
 lines, clm = 10, 10
-pygame.mixer.music.load("music.mp3")
+pygame.mixer.music.load("photos_music/music.mp3")
 pygame.mixer.music.play(-1)
 Grid_GRPH = GenLab(lines, clm)
 Viz_Get_Out(Grid_GRPH)
