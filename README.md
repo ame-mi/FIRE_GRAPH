@@ -1,7 +1,7 @@
 # FIRE_GRAPH
-# Доступ к summary презентации по ссылке
+# Доступ к summary презентации осуществляется по ссылке
 ```bash
-https://disk.yandex.ru/i/CPTbYLt6VuAxCw
+https://disk.yandex.ru/i/ghIRb5k3JYPt-Q
 ```
 # Эвакуация из лабиринта
 
